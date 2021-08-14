@@ -1,21 +1,23 @@
 import speech_recognition as sr
 
-def listen() -> str:
-    """
-    Listens to the user's speech and returns the text.
-    """
-    recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
-        recognizer.adjust_for_ambient_noise(source)
-        print("Listening...")
-        audio = recognizer.listen(source)
+class Listener():
+    def __init__(self) -> None:
+        self.recognizer = sr.Recognizer()
+    
+    def listen(self) -> str:
+        """
+        Listens to the user's speech and returns the text.
+        """
+        with sr.Microphone() as source:
+            self.recognizer.adjust_for_ambient_noise(source)
+            audio = self.recognizer.listen(source)
+        # TODO: Use IBM cloud instead of Web Google Speech Recognition
+        return self.recognizer.recognize_google(audio, language="pt-BR")
 
-    # TODO: Use IBM cloud instead of Web Google Speech Recognition
-    return recognizer.recognize_google(audio, language='pt-BR')
-
+# test
 if __name__ == "__main__":
     try:
-        response = listen()
+        response = Listener().listen()
     except sr.UnknownValueError:
         raise Exception("AudioUnrecognizable")
     except sr.RequestError:
