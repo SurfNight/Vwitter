@@ -8,8 +8,10 @@ class Twitter():
                                access_token_key=access_token_key,
                                access_token_secret=access_token_secret)
         
-    def read_last_tweets(self, number_of_tweets):
-        return
+    def read_last_tweets(self, number_of_tweets = 1):
+        tweetsStatus = self.api.GetUserTimeline(count = number_of_tweets)
+        return [tweet.text for tweet in tweetsStatus]
     
-    def tweet(self):
-        return
+    def tweet(self, msg):
+        status = self.api.PostUpdate(msg)
+        return status
