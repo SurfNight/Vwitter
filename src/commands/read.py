@@ -1,5 +1,5 @@
 from commands import Command
-from main import register_command
+from register_commands import register_command
 
 @register_command
 class Read(Command):
@@ -9,7 +9,7 @@ class Read(Command):
     
     def run(self, text_input: str):
         number = 5
-        for word in text_input.split():
+        for word in text_input:
             if word.isdigit():
                 number = int(word)
                 break
