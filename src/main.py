@@ -1,40 +1,34 @@
 from listener import Listener
 from reproducer import reproduce
-from manager import Manager
+from unidecode import unidecode
+from register_commands import get_current_manager
 from commands import *
-from typing import Type
 from speech_recognition import UnknownValueError
 
 listener = Listener()
-manager = Manager()
+manager = get_current_manager()
 activator = "jarbas"
-
-def register_command(klass: Type[Command]) -> None:
-    """
-    This decorator registers a class on `manager` global object
-    """
-    manager.add(klass)
 
 def run():
     response = ""
 
     while True:
         try:
-            response = listener.listen().lower()
+            response = unidecode(listener.listen().lower())
         except UnknownValueError:
-            print("Deu erro")
+            print("Erro de reconhecimento.")
             continue
         if activator in response:
             break
-    print(response)
-    response.replace(activator, '', 1)
+    print(f"Texto reconhecido: {response}")
+    response = response.replace(activator, '', 1)
 
     try:
         command, text = manager.find_matching_command_and_text(response)
         command_audio_response = command().run(text)
         reproduce(command_audio_response)
     except LookupError:
-        reproduce("Não entendi o comando, pilantra.")
+        reproduce("Desculpe, não entendi.")
     return
         
 def get_twitter_creds():
