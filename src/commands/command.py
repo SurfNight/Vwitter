@@ -1,8 +1,7 @@
 class Command():
-    def __init__(self, name, description, triggers):
-        self.name = name
-        self.description = description
-        self.triggers = [triggers]
-        
+    name = None
+    description = None
+    triggers = None
+
     def run(self):
         raise NotImplementedError("Should have implemented run method")

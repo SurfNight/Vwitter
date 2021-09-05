@@ -1,9 +1,13 @@
-from commands.command import Command
+from commands import Command
+from main import register_command
 
+@register_command
 class Publish(Command):
-    def __init__(self):
-        super().__init__("Publicar", "Comando que publica um tweet.",
-                         ["publi", "twitch", "twitter", "envi"])
+    triggers = ["publi", "twitch", "twitter", "envi"]
+    name = "Publicar"
+    description = "Comando que publica um tweet."
     
-    def run(self):
-        return
+    def run(self, tweet: str):
+        #TODO: trocar pela chamada do comando do twitter
+        print(tweet)
+        return("Tweetado com sucesso, pai.")
