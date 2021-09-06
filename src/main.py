@@ -4,6 +4,7 @@ from unidecode import unidecode
 from register_commands import get_current_manager
 from commands import *
 from speech_recognition import UnknownValueError
+from dotenv import load_dotenv
 
 listener = Listener()
 manager = get_current_manager()
@@ -33,6 +34,7 @@ def run():
         
 def get_twitter_creds():
     # TODO: Ask for Twitter API Credentials
+    load_dotenv()
     return
     
 
