@@ -12,8 +12,8 @@ class Publish(Command):
         access_token_secret = os.getenv('access_token_secret')
         self.twitter = Twitter(api_key, api_secret_key, access_token, access_token_secret)
 
-    triggers = ["publi", "twitch", "twitter",
-                "envie", "publique", "publica", "public"]
+    triggers = ["twitch", "twitter",
+                "envie", "publique", "publica", "public", "publi"]
     name = "Publicar"
     description = "Comando que publica um tweet."
     
