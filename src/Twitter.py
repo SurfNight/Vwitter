@@ -1,12 +1,21 @@
 import twitter
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 class Twitter():
-    def __init__(self, consumer_key, consumer_secret,
-                       access_token_key, access_token_secret):
-        self.api = twitter.Api(consumer_key=consumer_key,
-                               consumer_secret=consumer_secret,
+    def __init__(self):
+        api_key = os.getenv('api_key')
+        api_secret_key = os.getenv('api_secret_key')
+        self.consumer_key=api_key,
+        self.consumer_secret=api_secret_key
+
+    def set_api(self,access_token_key, access_token_secret):
+        self.api = twitter.Api(consumer_key=self.consumer_key,
+                               consumer_secret=self.consumer_secret,
                                access_token_key=access_token_key,
                                access_token_secret=access_token_secret)
+
         
     def read_last_tweets(self, number_of_tweets = 1):
         tweetsStatus = self.api.GetHomeTimeline(count = number_of_tweets)
@@ -19,3 +28,5 @@ class Twitter():
     def tweet(self, msg):
         status = self.api.PostUpdate(msg)
         return status
+
+my_twitter = Twitter()

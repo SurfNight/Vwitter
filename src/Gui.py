@@ -2,12 +2,13 @@ from tkinter import *
 from PIL import Image,ImageTk
 
 class Gui:
-    def __init__(self,micON_callback, send_callback):
+    def __init__(self,micON_callback, micOFF_callback, send_callback):
         self.win = Tk()
         self.win.title('Vwitter')
         self.win.geometry("400x500+10+10")
 
         self.micON_callback= micON_callback
+        self.micOFF_callback= micOFF_callback
         
         self.key_lbl=Label(self.win, text='API Key_lb')
         self.secret_lbl=Label(self.win, text='API Secret')
@@ -42,6 +43,7 @@ class Gui:
             self.micb.config(relief="raised")
             self.micb.config(background='Light Grey')
             self.micb.config(image=self.mic_icon)
+            self.micOFF_callback()
         else:
             self.micb.config(background='Dark Grey')
             self.micb.config(image=self.micon_icon)

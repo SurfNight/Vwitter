@@ -1,17 +1,10 @@
 import os
 from commands import Command
 from register_commands import register_command
-from Twitter import Twitter
+import Twitter 
 
 @register_command
 class Publish(Command):
-    def __init__(self):
-        api_key = os.getenv('api_key')
-        api_secret_key = os.getenv('api_secret_key')
-        access_token = os.getenv('access_token')
-        access_token_secret = os.getenv('access_token_secret')
-        self.twitter = Twitter(api_key, api_secret_key, access_token, access_token_secret)
-
     triggers = ["twitch", "twitter",
                 "envie", "publique", "publica", "public", "publi"]
     name = "Publicar"
@@ -19,5 +12,5 @@ class Publish(Command):
     
     def run(self, tweet: str):
         print(tweet)
-        self.twitter.tweet(tweet)
+        Twitter.my_twitter.tweet(tweet)
         return("Tweetado com sucesso, pai.")
