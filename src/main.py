@@ -1,3 +1,4 @@
+from logging import root
 from os import fwalk, sendfile
 from listener import Listener
 from reproducer import reproduce
@@ -41,20 +42,26 @@ def run():
     return
 
 def listening_loop():
-    while True:
-        if listening: 
+    while state["running"]:
+        if state["listening"]: 
             run()
         else:
             sleep(0.5)
 
 if __name__ == "__main__":
-    listening = False
-    micON = lambda: listening = True
-    micOFF = lambda: listening = False
-    sendCallback = lambda key, secret: Twitter.my_twitter.set_api(key, secret)
+    state = {
+        'running':True,
+        'listening':False
+    }
+    def micON():
+        state["listening"] = True
+    def micOFF():
+        state["listening"] = False
+    def sendCallback(key, secret):
+        Twitter.my_twitter.set_api(key, secret)
     interface = Gui(micON, micOFF, sendCallback)
     listen_thread = threading.Thread(target=listening_loop)
     listen_thread.start()
     interface.mainloop()
-
+    running = False
         
