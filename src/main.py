@@ -39,6 +39,10 @@ def run():
     except LookupError:
         interface.setJarbasSpeech("Desculpe, não entendi.")
         reproduce("Desculpe, não entendi.")
+    except Exception as e:
+        print(e)
+        interface.setJarbasSpeech("Ocorreu um erro inesperado.")
+        reproduce("Ocorreu um erro inesperado.")
     return
 
 def listening_loop():
@@ -63,5 +67,5 @@ if __name__ == "__main__":
     listen_thread = threading.Thread(target=listening_loop)
     listen_thread.start()
     interface.mainloop()
-    running = False
-        
+    state['running'] = False
+    listen_thread.join()

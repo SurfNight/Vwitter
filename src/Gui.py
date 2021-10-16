@@ -6,13 +6,13 @@ class Gui:
     def __init__(self, micON_callback, micOFF_callback, send_callback):
         self.win = Tk()
         self.win.title('Vwitter')
-        self.win.geometry("400x500+10+10")
+        self.win.geometry("360x640")
 
         self.micON_callback = micON_callback
         self.micOFF_callback = micOFF_callback
         self.send_callback = send_callback
 
-        self.key_lbl = Label(self.win, text='API Key_lb')
+        self.key_lbl = Label(self.win, text='API Key')
         self.secret_lbl = Label(self.win, text='API Secret')
         self.key_ent = Entry()
         self.secret_ent = Entry()
@@ -20,11 +20,11 @@ class Gui:
         self.key_ent.place(x=150, y=50)
         self.secret_lbl.place(x=50, y=100)
         self.secret_ent.place(x=150, y=100)
-        self.send_bt = Button(self.win, text='Enviar',
+        self.send_bt = Button(self.win, text='Atualizar Credenciais',
                               width=30, command=self.send_creds)
         self.send_bt.place(x=50, y=150)
-        self.mic_icon = (Image.open("mic.png"))
-        self.micon_icon = (Image.open("micon.png"))
+        self.mic_icon = (Image.open("./assets/images/mic.png"))
+        self.micon_icon = (Image.open("./assets/images/micon.png"))
         ratio = 272/185
         size = 80
         self.mic_icon = self.mic_icon.resize((int(size*ratio), size))
