@@ -6,7 +6,6 @@ from register_commands import get_current_manager
 from commands import *
 from Gui import Gui
 from speech_recognition import UnknownValueError
-from time import sleep
 import Twitter
 import threading
 
@@ -94,6 +93,9 @@ if __name__ == "__main__":
             creds = json.load(creds_file)
         except:
             pass
+
+    if creds:
+        Twitter.my_twitter.set_api(**creds)
 
     interface = Gui(sendCallback, creds)
     listen_thread = threading.Thread(target=listening_loop)
