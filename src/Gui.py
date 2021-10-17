@@ -68,12 +68,11 @@ class Gui:
         self.logo_icon = ImageTk.PhotoImage(self.logo)
         self.jarbas_icon = ImageTk.PhotoImage(self.jarbas_logo)
         self.pessoa_icon = ImageTk.PhotoImage(self.pessoa_logo)
-        
+
         self.logo_lbl = Label(self.win, image=self.logo_icon)
         self.logo_lbl.place(x=50, y=700)
-        self.micb = Button(self.win, image=self.mic_icon,
-                           relief='raised', command=self.toggleMic)
-        self.micb.place(x=120, y=300)
+        self.mic_lbl = Label(self.win, image=self.mic_icon)
+        self.mic_lbl.place(x=120, y=300)
 
         self.j_speech_lbl = Label(self.win, image=self.jarbas_icon)
         self.jarbas_speech = Label(self.win, text='Fala comigo.')
@@ -84,20 +83,15 @@ class Gui:
         self.u_speech_lbl.place(x=50, y=490)
         self.user_speech.place(x=100, y=510)
 
-    def toggleMic(self):
-        if self.micb.config('relief')[-1] == 'sunken':
-            self.micb.config(relief="raised")
-            self.micb.config(background='Light Grey')
-            self.micb.config(image=self.mic_icon)
-            self.micOFF_callback()
-        else:
-            self.micb.config(background='Dark Grey')
-            self.micb.config(image=self.micon_icon)
-            self.micb.config(relief="sunken")
-            self.micON_callback()
+    def mic_on(self):
+        self.mic_lbl.config(image=self.micon_icon)
+
+    def mic_off(self):
+        self.mic_lbl.config(image=self.mic_icon)
 
     def send_creds(self):
-        self.send_callback(self.consumer_key_ent.get(), self.consumer_secret_ent.get(), self.key_ent.get(), self.secret_ent.get())
+        self.send_callback(self.consumer_key_ent.get(
+        ), self.consumer_secret_ent.get(), self.key_ent.get(), self.secret_ent.get())
 
     def setJarbasSpeech(self, text):
         self.jarbas_speech.config(text=text)

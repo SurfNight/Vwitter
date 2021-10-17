@@ -14,6 +14,7 @@ listener = Listener()
 manager = get_current_manager()
 activator = "jarbas"
 
+
 def run(wait_for_jarbas=True):
     response = ""
 
@@ -22,10 +23,12 @@ def run(wait_for_jarbas=True):
             response = unidecode(listener.listen().lower())
         except UnknownValueError:
             print("Não falou jarbas.")
+            interface.setUserSpeech(response)
             continue
         if activator in response:
             print(f"Falou jarbas.")
-            interface.setUserSpeech("jarbas")
+            interface.setUserSpeech(response)
+            interface.mic_on()
             break
         print("Não falou jarbas.")
 
@@ -43,13 +46,14 @@ def run(wait_for_jarbas=True):
             continue
         interface.setUserSpeech(response)
         break
-    
+
     wait_next_time = True
     try:
         command, text = manager.find_matching_command_and_text(response)
         command_audio_response = command().run(text)
-        interface.setJarbasSpeech(command_audio_response)   
+        interface.setJarbasSpeech(command_audio_response)
         reproduce(command_audio_response)
+        interface.mic_off()
     except LookupError:
         interface.setJarbasSpeech("Desculpe, não entendi.")
         reproduce("Desculpe, não entendi.")
@@ -61,24 +65,17 @@ def run(wait_for_jarbas=True):
         wait_next_time = False
     return wait_next_time
 
+
 def listening_loop():
     should_wait_for_jarbas = True
     while state["running"]:
-        if state["listening"]: 
-            should_wait_for_jarbas = run(should_wait_for_jarbas)
-        else:
-            sleep(0.5)
+        should_wait_for_jarbas = run(should_wait_for_jarbas)
+
 
 if __name__ == "__main__":
     state = {
-        'running':True,
-        'listening':False
+        'running': True
     }
-    def micON():
-        state["listening"] = True
-
-    def micOFF():
-        state["listening"] = False
 
     def sendCallback(consumer_key, consumer_secret, key, secret):
         with open("creds.json", 'w') as creds:
@@ -98,7 +95,7 @@ if __name__ == "__main__":
         except:
             pass
 
-    interface = Gui(micON, micOFF, sendCallback, creds)
+    interface = Gui(sendCallback, creds)
     listen_thread = threading.Thread(target=listening_loop)
     listen_thread.start()
     interface.mainloop()
