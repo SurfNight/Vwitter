@@ -33,10 +33,15 @@ class Twitter():
         self.api.PostDirectMessage(text=msg, user_id=user_id)
         return "DM enviada!"
 
-    def get_profile_picture(self):
-        profile_picture = self.api.profile_image_url_https
-        #ppic = creds.get("Profile Picture", )
-        return profile_picture
+    def get_profilePic_url(self):
+        try:
+            return self.api.VerifyCredentials().profile_image_url
+        except:
+            pass
+
+    # def get_profile_picture(self):
+    #     profile_picture = self.api.User.profile_image_url_https
+    #     return profile_picture
 
 
 my_twitter = Twitter()

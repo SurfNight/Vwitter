@@ -52,6 +52,11 @@ class Gui:
                               width=30, command=self.send_creds)
         self.send_bt.place(x=50, y=250)
 
+        #self.picture_url = Twitter.my_twitter.get_profile_picture()
+        self.send_bt2 = Button(self.win, text='Atualizar Foto',
+                               width=30, command=self.updateProfilePicture)
+        self.send_bt2.place(x=50, y=280)
+
         self.mic_icon = (Image.open("./assets/images/mic.png"))
         self.micon_icon = (Image.open("./assets/images/micon.png"))
         self.logo = (Image.open("./assets/images/vwitterLogo.png"))
@@ -112,5 +117,12 @@ class Gui:
     def mainloop(self):
         self.win.mainloop()
 
-    def updateProfilePicture(self, url):
+    def getProfilePicture(self):
+        self.profile_picture = Twitter.my_twitter.get_profilePic_url()
+        return self.profile_picture
+
+    def updateProfilePicture(self):
+        self.getProfilePicture()
+        url = self.profile_picture
+        print(url)
         self.pessoa_logo = Image.open(requests.get(url, stream=True).raw)

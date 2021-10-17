@@ -49,6 +49,13 @@ def run(wait_for_jarbas=True):
     try:
         command, text = manager.find_matching_command_and_text(response)
         command_audio_response = command().run(text)
+
+        char_list = [command_audio_response[j]
+                     for j in range(len(command_audio_response)) if ord(command_audio_response[j]) in range(65536)]
+        command_audio_response = ''
+        for j in char_list:
+            command_audio_response = command_audio_response+j
+
         interface.setJarbasSpeech(command_audio_response)
         reproduce(command_audio_response)
     except LookupError:
@@ -95,16 +102,23 @@ if __name__ == "__main__":
 
         Twitter.my_twitter.set_api(consumer_key, consumer_secret, key, secret)
 
+    # print(Twitter.my_twitter.api.VerifyCredentials())
     credsFilled = False
     creds = {}
+    print("Oi k")
     with open("creds.json", 'r') as creds_file:
         try:
             creds = json.load(creds_file)
             credsFilled = True
+            # print(Twitter.my_twitter.get_profile_picture())
         except:
+            print("chorou")
             pass
 
     interface = Gui(micON, micOFF, sendCallback, creds)
+
+    # interface.updateProfilePicture(
+    #     Twitter.my_twitter.get_profile_picture())
 
     if credsFilled:
         try:
