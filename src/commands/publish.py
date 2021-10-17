@@ -6,7 +6,7 @@ import Twitter
 @register_command
 class Publish(Command):
     triggers = ["twitch", "twitter",
-                "envie", "publique", "publica", "public", "publi"]
+                "publique", "publica", "public", "publi"]
     name = "Publicar"
     description = "Comando que publica um tweet."
     
