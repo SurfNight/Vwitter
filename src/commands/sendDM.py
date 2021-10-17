@@ -1,14 +1,15 @@
 import os
 from commands import Command
 from register_commands import register_command
-import Twitter 
+import Twitter
+
 
 @register_command
 class SendDM(Command):
-    triggers = ["envie", "enviar" "mande", "mandar"]
+    triggers = ["envie", "enviar" "mande", "mandar", "manda"]
     name = "Enviar"
     description = "Comando que envia uma direct message."
-    
+
     def run(self, text_input: str):
         print(text_input)
         # TODO: melhorar o tratamento
