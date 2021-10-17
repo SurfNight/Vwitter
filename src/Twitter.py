@@ -35,13 +35,9 @@ class Twitter():
 
     def get_profilePic_url(self):
         try:
-            return self.api.VerifyCredentials().profile_image_url
+            return self.api.VerifyCredentials().profile_image_url_https
         except:
             pass
-
-    # def get_profile_picture(self):
-    #     profile_picture = self.api.User.profile_image_url_https
-    #     return profile_picture
 
 
 my_twitter = Twitter()
