@@ -1,5 +1,4 @@
-from logging import root
-from os import fwalk, sendfile, wait
+import json
 from listener import Listener
 from reproducer import reproduce
 from unidecode import unidecode
@@ -49,8 +48,8 @@ def run(wait_for_jarbas=True):
     try:
         command, text = manager.find_matching_command_and_text(response)
         command_audio_response = command().run(text)
+        interface.setJarbasSpeech(command_audio_response)   
         reproduce(command_audio_response)
-        interface.setJarbasSpeech(command_audio_response)
     except LookupError:
         interface.setJarbasSpeech("Desculpe, não entendi.")
         reproduce("Desculpe, não entendi.")
@@ -81,10 +80,25 @@ if __name__ == "__main__":
     def micOFF():
         state["listening"] = False
 
-    def sendCallback(key, secret):
-        Twitter.my_twitter.set_api(key, secret)
+    def sendCallback(consumer_key, consumer_secret, key, secret):
+        with open("creds.json", 'w') as creds:
+            creds.write(json.dumps({
+                "consumer_key": consumer_key,
+                "consumer_secret": consumer_secret,
+                "key": key,
+                "secret": secret
+            }))
 
-    interface = Gui(micON, micOFF, sendCallback)
+        Twitter.my_twitter.set_api(consumer_key, consumer_secret, key, secret)
+
+    creds = {}
+    with open("creds.json", 'r') as creds_file:
+        try:
+            creds = json.load(creds_file)
+        except:
+            pass
+
+    interface = Gui(micON, micOFF, sendCallback, creds)
     listen_thread = threading.Thread(target=listening_loop)
     listen_thread.start()
     interface.mainloop()

@@ -14,5 +14,5 @@ class Read(Command):
         
         print(f"Lendo ultimos {str(number)} tweets...")
         tweets = Twitter.my_twitter.read_last_tweets(number)
-        ret = ','.join(tweets)
+        ret = ', '.join(tweets)
         return(ret)
