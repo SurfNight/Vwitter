@@ -1,3 +1,4 @@
+from requests.models import parse_url
 import twitter
 import os
 from dotenv import load_dotenv
@@ -21,5 +22,13 @@ class Twitter():
     def tweet(self, msg):
         status = self.api.PostUpdate(msg)
         return status
+    
+    def post_dm(self, user, msg):
+        try:
+            user_id = self.api.GetUser(screen_name = user).id
+        except twitter.TwitterError:
+            return f"Usuário {user} não encontrado."
+        self.api.PostDirectMessage(text=msg, user_id=user_id)
+        return "DM enviada!"
 
 my_twitter = Twitter()
