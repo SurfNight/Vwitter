@@ -14,6 +14,7 @@ listener = Listener()
 manager = get_current_manager()
 activator = "jarbas"
 
+
 def run(wait_for_jarbas=True):
     response = ""
 
@@ -43,12 +44,12 @@ def run(wait_for_jarbas=True):
             continue
         interface.setUserSpeech(response)
         break
-    
+
     wait_next_time = True
     try:
         command, text = manager.find_matching_command_and_text(response)
         command_audio_response = command().run(text)
-        interface.setJarbasSpeech(command_audio_response)   
+        interface.setJarbasSpeech(command_audio_response)
         reproduce(command_audio_response)
     except LookupError:
         interface.setJarbasSpeech("Desculpe, não entendi.")
@@ -61,19 +62,22 @@ def run(wait_for_jarbas=True):
         wait_next_time = False
     return wait_next_time
 
+
 def listening_loop():
     should_wait_for_jarbas = True
     while state["running"]:
-        if state["listening"]: 
+        if state["listening"]:
             should_wait_for_jarbas = run(should_wait_for_jarbas)
         else:
             sleep(0.5)
 
+
 if __name__ == "__main__":
     state = {
-        'running':True,
-        'listening':False
+        'running': True,
+        'listening': False
     }
+
     def micON():
         state["listening"] = True
 
@@ -91,14 +95,24 @@ if __name__ == "__main__":
 
         Twitter.my_twitter.set_api(consumer_key, consumer_secret, key, secret)
 
+    credsFilled = False
     creds = {}
     with open("creds.json", 'r') as creds_file:
         try:
             creds = json.load(creds_file)
+            credsFilled = True
         except:
             pass
 
     interface = Gui(micON, micOFF, sendCallback, creds)
+
+    if credsFilled:
+        try:
+            interface.updateProfilePicture(
+                Twitter.my_twitter.get_profile_picture())
+        except:
+            pass
+
     listen_thread = threading.Thread(target=listening_loop)
     listen_thread.start()
     interface.mainloop()

@@ -1,5 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
+import Twitter
+import requests
 
 
 class Gui:
@@ -54,6 +56,7 @@ class Gui:
         self.micon_icon = (Image.open("./assets/images/micon.png"))
         self.logo = (Image.open("./assets/images/vwitterLogo.png"))
         self.jarbas_logo = (Image.open("./assets/images/homem-robo.png"))
+        #self.pessoa_logo = (Image.open("./assets/images/avatar-homem.png"))
         self.pessoa_logo = (Image.open("./assets/images/avatar-homem.png"))
 
         ratio = 272/185
@@ -68,7 +71,7 @@ class Gui:
         self.logo_icon = ImageTk.PhotoImage(self.logo)
         self.jarbas_icon = ImageTk.PhotoImage(self.jarbas_logo)
         self.pessoa_icon = ImageTk.PhotoImage(self.pessoa_logo)
-        
+
         self.logo_lbl = Label(self.win, image=self.logo_icon)
         self.logo_lbl.place(x=50, y=700)
         self.micb = Button(self.win, image=self.mic_icon,
@@ -97,7 +100,8 @@ class Gui:
             self.micON_callback()
 
     def send_creds(self):
-        self.send_callback(self.consumer_key_ent.get(), self.consumer_secret_ent.get(), self.key_ent.get(), self.secret_ent.get())
+        self.send_callback(self.consumer_key_ent.get(
+        ), self.consumer_secret_ent.get(), self.key_ent.get(), self.secret_ent.get())
 
     def setJarbasSpeech(self, text):
         self.jarbas_speech.config(text=text)
@@ -107,3 +111,6 @@ class Gui:
 
     def mainloop(self):
         self.win.mainloop()
+
+    def updateProfilePicture(self, url):
+        self.pessoa_logo = Image.open(requests.get(url, stream=True).raw)
