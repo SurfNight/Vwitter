@@ -50,6 +50,12 @@ def run(wait_for_jarbas=True):
     try:
         command, text = manager.find_matching_command_and_text(response)
         command_audio_response = command().run(text)
+        char_list = [command_audio_response[j]
+                     for j in range(len(command_audio_response)) if ord(command_audio_response[j]) in range(65536)]
+        command_audio_response = ''
+        for j in char_list:
+            command_audio_response = command_audio_response+j
+
         interface.setJarbasSpeech(command_audio_response)
         reproduce(command_audio_response)
         interface.mic_off()

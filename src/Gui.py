@@ -1,5 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
+import Twitter
+import requests
 
 
 class Gui:
@@ -47,6 +49,10 @@ class Gui:
                               width=30, command=self.send_creds)
         self.send_bt.place(x=50, y=250)
 
+        self.send_bt2 = Button(self.win, text='Atualizar Foto',
+                               width=30, command=self.updateProfilePicture)
+        self.send_bt2.place(x=50, y=280)
+
         self.mic_icon = (Image.open("./assets/images/mic.png"))
         self.micon_icon = (Image.open("./assets/images/micon.png"))
         self.logo = (Image.open("./assets/images/vwitterLogo.png"))
@@ -69,7 +75,7 @@ class Gui:
         self.logo_lbl = Label(self.win, image=self.logo_icon)
         self.logo_lbl.place(x=50, y=700)
         self.mic_lbl = Label(self.win, image=self.mic_icon)
-        self.mic_lbl.place(x=120, y=300)
+        self.mic_lbl.place(x=120, y=310)
 
         self.j_speech_lbl = Label(self.win, image=self.jarbas_icon)
         self.jarbas_speech = Label(self.win, text='Fala comigo.')
@@ -98,3 +104,16 @@ class Gui:
 
     def mainloop(self):
         self.win.mainloop()
+
+    def getProfilePicture(self):
+        self.profile_picture = Twitter.my_twitter.get_profilePic_url()
+        return self.profile_picture
+
+    def updateProfilePicture(self):
+        self.getProfilePicture()
+        url = self.profile_picture
+        self.pessoa_logo = Image.open(requests.get(url, stream=True).raw)
+        self.pessoa_logo = self.pessoa_logo.resize((50, 50))
+        self.pessoa_icon = ImageTk.PhotoImage(self.pessoa_logo)
+        self.u_speech_lbl = Label(self.win, image=self.pessoa_icon)
+        self.u_speech_lbl.place(x=50, y=490)
