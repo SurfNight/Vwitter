@@ -3,7 +3,7 @@ from PIL import Image, ImageTk
 
 
 class Gui:
-    def __init__(self, micON_callback, micOFF_callback, send_callback, creds):
+    def __init__(self, send_callback, creds):
         self.win = Tk()
         self.win.title('Vwitter')
         self.win.geometry("380x800")
@@ -12,9 +12,6 @@ class Gui:
         self.consumer_secret_text = creds.get('consumer_secret', '')
         self.key_text = creds.get('key', '')
         self.secret_text = creds.get('secret', '')
-
-        self.micON_callback = micON_callback
-        self.micOFF_callback = micOFF_callback
         self.send_callback = send_callback
 
         self.consumer_key_lbl = Label(self.win, text='Consumer Key')
