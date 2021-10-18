@@ -75,7 +75,7 @@ class Gui:
         self.logo_lbl = Label(self.win, image=self.logo_icon)
         self.logo_lbl.place(x=50, y=700)
         self.mic_lbl = Label(self.win, image=self.mic_icon)
-        self.mic_lbl.place(x=120, y=300)
+        self.mic_lbl.place(x=120, y=310)
 
         self.j_speech_lbl = Label(self.win, image=self.jarbas_icon)
         self.jarbas_speech = Label(self.win, text='Fala comigo.')

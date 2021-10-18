@@ -8,8 +8,8 @@ class Twitter():
     def set_api(self, consumer_key, consumer_secret, key, secret):
         self.api = twitter.Api(consumer_key=consumer_key,
                                consumer_secret=consumer_secret,
-                               access_token_key=access_token_key,
-                               access_token_secret=access_token_secret)
+                               access_token_key=key,
+                               access_token_secret=secret)
 
     def read_last_tweets(self, number_of_tweets=3):
         tweetsStatus = self.api.GetHomeTimeline(count=number_of_tweets)
