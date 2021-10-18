@@ -1,13 +1,11 @@
-from requests.models import parse_url
 import twitter
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
 class Twitter():
-    def set_api(self, consumer_key, consumer_secret, access_token_key, access_token_secret):
+    def set_api(self, consumer_key, consumer_secret, key, secret):
         self.api = twitter.Api(consumer_key=consumer_key,
                                consumer_secret=consumer_secret,
                                access_token_key=access_token_key,

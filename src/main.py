@@ -6,7 +6,6 @@ from register_commands import get_current_manager
 from commands import *
 from Gui import Gui
 from speech_recognition import UnknownValueError
-from time import sleep
 import Twitter
 import threading
 
@@ -23,10 +22,12 @@ def run(wait_for_jarbas=True):
             response = unidecode(listener.listen().lower())
         except UnknownValueError:
             print("Não falou jarbas.")
+            interface.setUserSpeech(response)
             continue
         if activator in response:
             print(f"Falou jarbas.")
-            interface.setUserSpeech("jarbas")
+            interface.setUserSpeech(response)
+            interface.mic_on()
             break
         print("Não falou jarbas.")
 
@@ -58,6 +59,7 @@ def run(wait_for_jarbas=True):
 
         interface.setJarbasSpeech(command_audio_response)
         reproduce(command_audio_response)
+        interface.mic_off()
     except LookupError:
         interface.setJarbasSpeech("Desculpe, não entendi.")
         reproduce("Desculpe, não entendi.")
@@ -73,23 +75,13 @@ def run(wait_for_jarbas=True):
 def listening_loop():
     should_wait_for_jarbas = True
     while state["running"]:
-        if state["listening"]:
-            should_wait_for_jarbas = run(should_wait_for_jarbas)
-        else:
-            sleep(0.5)
+        should_wait_for_jarbas = run(should_wait_for_jarbas)
 
 
 if __name__ == "__main__":
     state = {
-        'running': True,
-        'listening': False
+        'running': True
     }
-
-    def micON():
-        state["listening"] = True
-
-    def micOFF():
-        state["listening"] = False
 
     def sendCallback(consumer_key, consumer_secret, key, secret):
         with open("creds.json", 'w') as creds:

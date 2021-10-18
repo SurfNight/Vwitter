@@ -5,7 +5,7 @@ import requests
 
 
 class Gui:
-    def __init__(self, micON_callback, micOFF_callback, send_callback, creds):
+    def __init__(self, send_callback, creds):
         self.win = Tk()
         self.win.title('Vwitter')
         self.win.geometry("380x800")
@@ -14,9 +14,6 @@ class Gui:
         self.consumer_secret_text = creds.get('consumer_secret', '')
         self.key_text = creds.get('key', '')
         self.secret_text = creds.get('secret', '')
-
-        self.micON_callback = micON_callback
-        self.micOFF_callback = micOFF_callback
         self.send_callback = send_callback
 
         self.consumer_key_lbl = Label(self.win, text='Consumer Key')
@@ -77,9 +74,8 @@ class Gui:
 
         self.logo_lbl = Label(self.win, image=self.logo_icon)
         self.logo_lbl.place(x=50, y=700)
-        self.micb = Button(self.win, image=self.mic_icon,
-                           relief='raised', command=self.toggleMic)
-        self.micb.place(x=120, y=300)
+        self.mic_lbl = Label(self.win, image=self.mic_icon)
+        self.mic_lbl.place(x=120, y=300)
 
         self.j_speech_lbl = Label(self.win, image=self.jarbas_icon)
         self.jarbas_speech = Label(self.win, text='Fala comigo.')
@@ -90,17 +86,11 @@ class Gui:
         self.u_speech_lbl.place(x=50, y=490)
         self.user_speech.place(x=100, y=510)
 
-    def toggleMic(self):
-        if self.micb.config('relief')[-1] == 'sunken':
-            self.micb.config(relief="raised")
-            self.micb.config(background='Light Grey')
-            self.micb.config(image=self.mic_icon)
-            self.micOFF_callback()
-        else:
-            self.micb.config(background='Dark Grey')
-            self.micb.config(image=self.micon_icon)
-            self.micb.config(relief="sunken")
-            self.micON_callback()
+    def mic_on(self):
+        self.mic_lbl.config(image=self.micon_icon)
+
+    def mic_off(self):
+        self.mic_lbl.config(image=self.mic_icon)
 
     def send_creds(self):
         self.send_callback(self.consumer_key_ent.get(
