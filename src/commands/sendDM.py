@@ -15,6 +15,7 @@ class SendDM(Command):
         # TODO: melhorar o tratamento
         if "arroba" not in text_input:
             return "Diga o @ do usúario que deve receber a DM."
-        msg, user  = text_input.split("arroba")
+        msg, user  = text_input.split(" arroba ")
+        if msg.endswith('para o'): msg = msg[:-6]
         ret = Twitter.my_twitter.post_dm(user, msg)
         return ret
