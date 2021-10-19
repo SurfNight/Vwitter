@@ -28,7 +28,10 @@ class Twitter():
             user_id = self.api.GetUser(screen_name=user).id
         except twitter.TwitterError:
             return f"Usuário {user} não encontrado."
-        self.api.PostDirectMessage(text=msg, user_id=user_id)
+        try:
+            self.api.PostDirectMessage(text=msg, user_id=user_id)
+        except KeyError:
+            return f"Não é possível enviar uma dm para o @{user}"
         return "DM enviada!"
 
     def get_profilePic_url(self):
